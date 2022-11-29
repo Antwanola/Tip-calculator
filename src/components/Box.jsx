@@ -16,7 +16,7 @@ export default function Box() {
   const [people, setPeople] = useState(0);
   const [personInterest, setpersonInterest] = useState(0);
   const [personTotal, setpersonTotal] = useState(0);
-  const [error, seterror] = useState(false)
+  const [error, seterror] = useState(false);
 
   const handleBillChange = (e) => {
     setBill(e.target.value);
@@ -30,36 +30,47 @@ export default function Box() {
   };
 
   const sharePeople = (e) => {
-    setPeople(e.target.value)
+    setPeople(e.target.value);
   };
 
-  const _reset = () =>{
+  const _reset = () => {
     setBill(0);
     setPercent(0);
     setPeople(0);
     setpersonInterest(0);
-    setpersonTotal(0)
-  }
+    setpersonTotal(0);
+  };
 
-useEffect(() => {
-  if(bill !==0 && percent !==0 && people !==0 ){
-    let percentageInterest = percent/100;
-    let interest = percentageInterest * bill;
-    let amountPerPerson = interest/people;
-    let totalAmountPerPerson = bill/people +amountPerPerson;
-    setpersonInterest(amountPerPerson.toFixed(2));
-    setpersonTotal(totalAmountPerPerson.toFixed(2))
-
-
-  }
-
- 
-}, [people && bill && percent])
-
+  useEffect(() => {
+    if (bill !== 0 && percent !== 0 && people !== 0) {
+      let percentageInterest = percent / 100;
+      let interest = percentageInterest * bill;
+      let amountPerPerson = interest / people;
+      let totalAmountPerPerson = bill / people + amountPerPerson;
+      if (
+        totalAmountPerPerson == Infinity ||
+        amountPerPerson == Infinity ||
+        people == 0
+      ) {
+        seterror(true);
+        setpersonInterest(0);
+      } else {
+        seterror(false);
+        setpersonInterest(amountPerPerson.toFixed(2));
+        setpersonTotal(totalAmountPerPerson.toFixed(2));
+      }
+    }
+  }, [people && bill && percent]);
 
   return (
     <BoxStyle>
-      <Flex justify="space-between" direction="row" smal_direction="column" smJustify="center" mLeft="1rem">
+      <Flex
+        justify="space-between"
+        direction="row"
+        smal_direction="column"
+        smJustify="center"
+        mLeft="1rem"
+      >
         <FormInputs>
           <form action="" id="form1">
             <label htmlFor="firstInput">Bill</label>
@@ -98,12 +109,18 @@ useEffect(() => {
           </div>
 
           <label htmlFor="people">Number of People</label>
-          
+          {error && <p id="errorMessage">This field can't be zero</p>}
           <form action="" id="form2">
             <span className="material-icons" id="icon1">
               person
             </span>
-            <input type="number" name="people" id="" onChange={sharePeople} value={people} />
+            <input
+              type="number"
+              name="people"
+              id=""
+              onChange={sharePeople}
+              value={people}
+            />
           </form>
         </FormInputs>
 
@@ -128,7 +145,7 @@ useEffect(() => {
             </div>
           </Flex>
 
-          <ResetBtn onClick={_reset} >Reset</ResetBtn>
+          <ResetBtn onClick={_reset}>Reset</ResetBtn>
         </GreenBox>
       </Flex>
     </BoxStyle>

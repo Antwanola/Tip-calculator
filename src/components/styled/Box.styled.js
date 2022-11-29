@@ -14,6 +14,11 @@ export const BoxStyle = styled.div`
             /* margin */
             /* margin-bottom: 20rem; */
         }
+        p[id="errorMessage"]{
+            color: #E3AE9F;
+            font-size: small;
+            margin-bottom: 0;
+        }
 
         #btn-wrap {
             margin-bottom: 1rem;
@@ -73,7 +78,10 @@ export const BoxStyle = styled.div`
      }
 
      form[id="form2"]{
+        display: flex;
+        flex-direction: column;
         position: relative;
+        
         span {
             position: absolute;
             color: grey;
